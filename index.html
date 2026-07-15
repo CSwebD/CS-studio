@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS — Websites for businesses that don't have one</title>
+<meta name="description" content="CS builds fast, honest websites for companies that don't have one yet.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAFAF8;
+    --paper-card:#F2F0EA;
+    --ink:#15161B;
+    --muted:#6E7078;
+    --line:#E5E2DC;
+    --accent:#FF5A36;
+    --accent-soft:#FFE3D9;
+    --t1a:#FFB4A2; --t1b:#FF5A36;
+    --t2a:#BFE3D0; --t2b:#5FA97F;
+    --t3a:#FFE08A; --t3b:#F2AE2E;
+    --t4a:#C9D6EA; --t4b:#7E93B8;
+    --t5a:#F7C9DE; --t5b:#E37CA8;
+    --radius:12px;
+    --maxw:1220px;
+    font-synthesis:none;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
+  }
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3,.display{
+    font-family:'Unbounded', sans-serif;
+    font-weight:700;
+    line-height:1.1;
+    letter-spacing:-0.01em;
+    margin:0;
+    color:var(--ink);
+  }
+
+  .mono{
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+  button{ font-family:inherit; }
+
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; }
+
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(250,250,248,0.85);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid transparent;
+    transition:border-color .3s ease, background .3s ease;
+  }
+  header.scrolled{ border-bottom:1px solid var(--line); background:rgba(250,250,248,0.96); }
+  nav.wrap{ display:flex; align-items:center; justify-content:space-between; height:74px; gap:20px; }
+
+  .logo{ display:flex; align-items:center; gap:11px; text-decoration:none; }
+  .logo .mark{
+    width:36px; height:36px; border-radius:9px;
+    background:var(--ink); color:#fff;
+    font-family:'Unbounded', sans-serif; font-weight:800; font-size:0.88rem;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .logo .wordmark{
+    font-family:'JetBrains Mono', monospace; font-size:0.7rem; color:var(--muted);
+    letter-spacing:0.05em; text-transform:uppercase; display:none;
+  }
+  @media (min-width:560px){ .logo .wordmark{ display:inline; } }
+
+  .nav-links{ display:flex; gap:30px; list-style:none; margin:0; padding:0; }
+  .nav-links a{ text-decoration:none; font-size:0.9rem; color:var(--muted); transition:color .2s ease; padding:6px 0; }
+  .nav-links a:hover{ color:var(--ink); }
+
+  .nav-right{ display:flex; align-items:center; gap:16px; }
+
+  .lang-switch{ display:flex; background:var(--paper-card); border:1px solid var(--line); border-radius:999px; padding:3px; gap:2px; }
+  .lang-btn{
+    background:none; border:none; color:var(--muted);
+    font-family:'JetBrains Mono', monospace; font-size:0.7rem; letter-spacing:0.06em;
+    padding:6px 11px; border-radius:999px; cursor:pointer; transition:all .2s ease;
+  }
+  .lang-btn.active{ background:var(--ink); color:#fff; font-weight:600; }
+  .lang-btn:not(.active):hover{ color:var(--ink); }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:12px 22px; border-radius:999px; text-decoration:none;
+    font-size:0.9rem; font-weight:600; cursor:pointer; border:1px solid transparent;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{ background:var(--ink); color:#fff; }
+  .btn-primary:hover{ transform:translateY(-1px); box-shadow:0 8px 20px rgba(21,22,27,0.22); }
+  .btn-ghost{ background:transparent; border-color:var(--line); color:var(--ink); }
+  .btn-ghost:hover{ border-color:var(--ink); }
+  .nav-cta{ display:inline-flex; }
+
+  .burger{ display:none; background:none; border:none; cursor:pointer; width:32px; height:24px; position:relative; }
+  .burger span{ position:absolute; left:0; right:0; height:2px; background:var(--ink); transition:all .25s ease; }
+  .burger span:nth-child(1){ top:0; } .burger span:nth-child(2){ top:11px; } .burger span:nth-child(3){ top:22px; }
+  .burger.open span:nth-child(1){ transform:translateY(11px) rotate(45deg); }
+  .burger.open span:nth-child(2){ opacity:0; }
+  .burger.open span:nth-child(3){ transform:translateY(-11px) rotate(-45deg); }
+
+  .mobile-panel{ display:none; flex-direction:column; gap:4px; padding:14px 28px 22px; border-top:1px solid var(--line); background:rgba(250,250,248,0.98); }
+  .mobile-panel.open{ display:flex; }
+  .mobile-panel a{ text-decoration:none; color:var(--ink); padding:12px 0; border-bottom:1px solid var(--line); font-size:0.98rem; }
+
+  /* ---------- HERO ---------- */
+  .hero{ padding:148px 0 90px; }
+  .hero-grid{ display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center; }
+  .eyebrow{ color:var(--accent); font-size:0.75rem; margin-bottom:18px; display:flex; align-items:center; gap:10px; }
+  .eyebrow::before{ content:''; width:22px; height:1px; background:var(--accent); display:inline-block; }
+  .hero h1{ font-size:clamp(2.1rem, 4.2vw, 3.2rem); max-width:14ch; margin-bottom:22px; }
+  .hero p.lede{ color:var(--muted); font-size:1.06rem; max-width:46ch; margin-bottom:34px; }
+  .hero-actions{ display:flex; gap:14px; flex-wrap:wrap; }
+
+  /* hero preview grid — small taste of the gallery below */
+  .preview-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    grid-auto-rows:70px;
+    gap:10px;
+  }
+  .preview-tile{
+    border-radius:10px;
+    opacity:0;
+    transform:translateY(10px);
+    animation: tileIn .55s ease forwards;
+  }
+  .preview-tile:nth-child(1){ grid-row:span 2; background:linear-gradient(155deg,var(--t1a),var(--t1b)); animation-delay:.05s; }
+  .preview-tile:nth-child(2){ grid-row:span 3; background:linear-gradient(155deg,var(--t4a),var(--t4b)); animation-delay:.15s; }
+  .preview-tile:nth-child(3){ grid-row:span 2; background:linear-gradient(155deg,var(--t3a),var(--t3b)); animation-delay:.25s; }
+  .preview-tile:nth-child(4){ grid-row:span 2; background:linear-gradient(155deg,var(--t5a),var(--t5b)); animation-delay:.35s; }
+  .preview-tile:nth-child(5){ grid-row:span 3; background:linear-gradient(155deg,var(--t2a),var(--t2b)); animation-delay:.45s; }
+  .preview-tile:nth-child(6){ grid-row:span 2; background:var(--paper-card); border:1px solid var(--line); animation-delay:.55s; }
+  @keyframes tileIn{ to{ opacity:1; transform:translateY(0); } }
+  @media (prefers-reduced-motion: reduce){ .preview-tile{ opacity:1; transform:none; animation:none; } }
+
+  /* ---------- SECTION SHARED ---------- */
+  section{ padding:100px 0; border-top:1px solid var(--line); }
+  .section-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:24px; margin-bottom:48px; flex-wrap:wrap; }
+  .section-head h2{ font-size:clamp(1.6rem, 2.8vw, 2.2rem); max-width:18ch; }
+  .section-head .eyebrow{ margin-bottom:14px; }
+  .section-sub{ color:var(--muted); max-width:40ch; font-size:0.97rem; }
+
+  /* ---------- CARD LANGUAGE (shared by services + portfolio) ---------- */
+  .thumb{
+    position:relative;
+    border-radius:10px;
+    overflow:hidden;
+    aspect-ratio:4/3;
+  }
+  .thumb-tag{
+    position:absolute; left:10px; bottom:10px;
+    background:rgba(21,22,27,0.72);
+    color:#fff;
+    font-size:0.62rem;
+    padding:5px 9px;
+    border-radius:999px;
+  }
+
+  /* ---------- SERVICES ---------- */
+  .services-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:20px;
+  }
+  .service{ text-decoration:none; }
+  .service .thumb{ margin-bottom:16px; display:flex; align-items:center; justify-content:center; }
+  .service .thumb span{ font-family:'Unbounded', sans-serif; font-weight:800; font-size:1.4rem; color:rgba(21,22,27,0.55); }
+  .service h3{ font-size:1.02rem; margin-bottom:6px; }
+  .service p{ color:var(--muted); font-size:0.88rem; margin:0; }
+  .service .thumb.t1{ background:linear-gradient(155deg,var(--t1a),var(--t1b)); }
+  .service .thumb.t2{ background:linear-gradient(155deg,var(--t2a),var(--t2b)); }
+  .service .thumb.t3{ background:linear-gradient(155deg,var(--t3a),var(--t3b)); }
+  .service .thumb.t4{ background:linear-gradient(155deg,var(--t4a),var(--t4b)); }
+
+  /* ---------- PROCESS ---------- */
+  .process{ display:grid; grid-template-columns:repeat(3, 1fr); gap:32px; }
+  .step{ position:relative; padding-top:8px; }
+  .step .step-num{ font-family:'JetBrains Mono', monospace; color:var(--muted); font-size:0.8rem; display:block; margin-bottom:14px; }
+  .step .step-num b{ color:var(--accent); }
+  .step h3{ font-size:1.08rem; margin-bottom:8px; }
+  .step p{ color:var(--muted); font-size:0.92rem; margin:0; }
+
+  /* ---------- PORTFOLIO (masonry gallery) ---------- */
+  .filter-bar{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:36px; }
+  .filter-pill{
+    background:var(--paper-card); border:1px solid var(--line); color:var(--muted);
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem; letter-spacing:0.05em; text-transform:uppercase;
+    padding:8px 16px; border-radius:999px; cursor:pointer; transition:all .18s ease;
+  }
+  .filter-pill.active{ background:var(--ink); color:#fff; border-color:var(--ink); }
+  .filter-pill:not(.active):hover{ border-color:var(--ink); color:var(--ink); }
+
+  .portfolio-grid{ columns:3 260px; column-gap:20px; }
+  .case{
+    break-inside:avoid;
+    margin-bottom:20px;
+    display:block;
+    text-decoration:none;
+    color:var(--ink);
+  }
+  .case .thumb{ margin-bottom:14px; }
+  .case .thumb-img{
+    position:absolute; inset:0;
+    transition:transform .4s ease;
+  }
+  .case:hover .thumb-img{ transform:scale(1.045); }
+  .case .thumb.h1{ aspect-ratio:4/5; }
+  .case .thumb.h2{ aspect-ratio:4/3; }
+  .case .thumb.h3{ aspect-ratio:1/1; }
+  .thumb-view{
+    position:absolute; top:10px; right:10px;
+    background:#fff; color:var(--ink);
+    font-size:0.68rem; font-weight:600;
+    padding:6px 11px; border-radius:999px;
+    opacity:0; transform:translateY(-4px);
+    transition:all .2s ease;
+  }
+  .case:hover .thumb-view{ opacity:1; transform:translateY(0); }
+  .case-sector{ font-size:0.68rem; color:var(--accent); display:block; margin-bottom:6px; }
+  .case h3{ font-size:1.02rem; margin-bottom:6px; }
+  .case p{ color:var(--muted); font-size:0.88rem; margin:0 0 6px; }
+  .case-sample{ font-size:0.66rem; color:var(--muted); }
+
+  .thumb.g1{ background:linear-gradient(160deg,var(--t5a),var(--t5b)); }
+  .thumb.g2{ background:linear-gradient(160deg,var(--t3a),var(--t3b)); }
+  .thumb.g3{ background:linear-gradient(160deg,var(--t4a),var(--t4b)); }
+
+  .case-ghost{
+    break-inside:avoid; margin-bottom:20px;
+    border:1px dashed var(--line); border-radius:10px;
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    padding:44px 24px; min-height:220px;
+  }
+  .case-ghost a{ text-decoration:none; color:var(--muted); }
+  .case-ghost .plus{
+    width:40px; height:40px; border:1px solid var(--line); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; margin:0 auto 14px;
+    font-size:1.2rem; color:var(--accent);
+  }
+  .case-ghost h3{ font-size:0.98rem; color:var(--ink); margin-bottom:6px; }
+  .case-ghost p{ color:var(--muted); font-size:0.86rem; }
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:56px; }
+  .contact-info h2{ font-size:clamp(1.6rem,2.8vw,2.1rem); margin-bottom:18px; max-width:15ch; }
+  .contact-info p{ color:var(--muted); max-width:38ch; margin-bottom:30px; }
+  .contact-line{ display:flex; align-items:center; gap:12px; padding:14px 0; border-top:1px solid var(--line); text-decoration:none; color:var(--ink); }
+  .contact-line:last-child{ border-bottom:1px solid var(--line); }
+  .contact-line .k{ color:var(--muted); font-size:0.72rem; width:88px; flex-shrink:0; }
+  .contact-line .v{ font-size:0.96rem; }
+
+  form{ display:grid; grid-template-columns:1fr 1fr; gap:16px; background:var(--paper-card); padding:28px; border-radius:var(--radius); border:1px solid var(--line); }
+  form .full{ grid-column:1/-1; }
+  label{ display:block; font-size:0.72rem; color:var(--muted); margin-bottom:8px; }
+  input, textarea, select{
+    width:100%; background:#fff; border:1px solid var(--line); border-radius:8px;
+    padding:12px 14px; color:var(--ink); font-family:'Inter', sans-serif; font-size:0.94rem;
+  }
+  input::placeholder, textarea::placeholder{ color:#A9ACB4; }
+  textarea{ resize:vertical; min-height:104px; }
+  select{ appearance:none; cursor:pointer; }
+  form .submit-row{ display:flex; align-items:center; gap:16px; margin-top:4px; flex-wrap:wrap; }
+  .form-note{ font-size:0.8rem; color:var(--muted); }
+  .form-success{ display:none; background:var(--accent-soft); border:1px solid var(--accent); color:#9A2E17; padding:14px 16px; border-radius:8px; font-size:0.88rem; }
+  .form-success.show{ display:block; }
+
+  /* ---------- FOOTER ---------- */
+  footer{ border-top:1px solid var(--line); padding:40px 0; }
+  .footer-row{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+  .footer-row .logo{ font-size:1rem; }
+  footer .fine{ color:var(--muted); font-size:0.82rem; }
+  .footer-links{ display:flex; gap:22px; list-style:none; padding:0; margin:0; }
+  .footer-links a{ color:var(--muted); text-decoration:none; font-size:0.85rem; }
+  .footer-links a:hover{ color:var(--accent); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:920px){
+    .nav-links, .nav-cta{ display:none; }
+    .burger{ display:block; }
+    .hero-grid{ grid-template-columns:1fr; }
+    .preview-grid{ order:-1; }
+    .services-grid{ grid-template-columns:repeat(2,1fr); }
+    .process{ grid-template-columns:1fr; }
+    .contact-grid{ grid-template-columns:1fr; }
+    form{ grid-template-columns:1fr; }
+    .portfolio-grid{ columns:2 220px; }
+    section{ padding:70px 0; }
+    .hero{ padding:126px 0 56px; }
+  }
+  @media (max-width:560px){
+    .services-grid{ grid-template-columns:1fr; }
+    .portfolio-grid{ columns:1; }
+  }
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <nav class="wrap">
+    <a href="#top" class="logo"><span class="mark">CS</span><span class="wordmark" data-i18n="hero.eyebrow">Web studio</span></a>
+    <ul class="nav-links">
+      <li><a href="#services" data-i18n="nav.services">Services</a></li>
+      <li><a href="#work" data-i18n="nav.work">Work</a></li>
+      <li><a href="#process" data-i18n="nav.process">Process</a></li>
+      <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="ro">RO</button>
+        <button class="lang-btn" data-lang="ru">RU</button>
+      </div>
+      <a href="#contact" class="btn btn-primary nav-cta" data-i18n="nav.cta">Get a quote</a>
+      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-panel" id="mobilePanel">
+    <a href="#services" data-i18n="nav.services">Services</a>
+    <a href="#work" data-i18n="nav.work">Work</a>
+    <a href="#process" data-i18n="nav.process">Process</a>
+    <a href="#contact" data-i18n="nav.contact">Contact</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero" style="border-top:none;">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow mono" data-i18n="hero.eyebrow">Web studio</div>
+        <h1 data-i18n="hero.title">Every business deserves a window on the street called the internet.</h1>
+        <p class="lede" data-i18n="hero.lede">We build fast, honest websites for companies that don't have one yet — restaurants, clinics, workshops and studios that are ready to be found.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary" data-i18n="hero.cta1">Get a free quote</a>
+          <a href="#work" class="btn btn-ghost" data-i18n="hero.cta2">See our work</a>
+        </div>
+      </div>
+      <div class="preview-grid" aria-hidden="true">
+        <div class="preview-tile"></div>
+        <div class="preview-tile"></div>
+        <div class="preview-tile"></div>
+        <div class="preview-tile"></div>
+        <div class="preview-tile"></div>
+        <div class="preview-tile"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow mono" data-i18n="services.eyebrow">What we build</div>
+          <h2 data-i18n="services.title">Services, laid out like a menu board</h2>
+        </div>
+        <p class="section-sub" data-i18n="services.sub">Pick the size that fits where your business is right now. Everything is built to grow with you later.</p>
+      </div>
+      <div class="services-grid">
+        <a class="service" href="#contact">
+          <div class="thumb t1"><span>01</span></div>
+          <h3 data-i18n="services.s1.title">Starter Site</h3>
+          <p data-i18n="services.s1.body">A single, sharp page so people can find you: what you do, your hours, your location, and a way to reach you.</p>
+        </a>
+        <a class="service" href="#contact">
+          <div class="thumb t2"><span>02</span></div>
+          <h3 data-i18n="services.s2.title">Business Website</h3>
+          <p data-i18n="services.s2.body">A full multi-page site — services, gallery, team, blog — built to represent everything you offer.</p>
+        </a>
+        <a class="service" href="#contact">
+          <div class="thumb t3"><span>03</span></div>
+          <h3 data-i18n="services.s3.title">Redesign &amp; Rescue</h3>
+          <p data-i18n="services.s3.body">Your site is old, slow, or broken on mobile. We rebuild it properly without losing what already works.</p>
+        </a>
+        <a class="service" href="#contact">
+          <div class="thumb t4"><span>04</span></div>
+          <h3 data-i18n="services.s4.title">Care &amp; Updates</h3>
+          <p data-i18n="services.s4.body">Ongoing hosting, content updates, and small fixes, so the site keeps working long after launch.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="work">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow mono" data-i18n="work.eyebrow">Selected work</div>
+          <h2 data-i18n="work.title">A few windows we've lit up</h2>
+        </div>
+        <p class="section-sub" data-i18n="work.sub">Sample case studies below — swap these for your own projects as you take on clients.</p>
+      </div>
+
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-pill active" data-filter="all" data-i18n="work.filters.all">All</button>
+        <button class="filter-pill" data-filter="beauty" data-i18n="work.filters.beauty">Beauty</button>
+        <button class="filter-pill" data-filter="restaurant" data-i18n="work.filters.restaurant">Restaurant</button>
+        <button class="filter-pill" data-filter="auto" data-i18n="work.filters.auto">Auto</button>
+      </div>
+
+      <div class="portfolio-grid" id="portfolioGrid">
+
+        <a class="case" href="#contact" data-category="beauty">
+          <div class="thumb g1 h1">
+            <div class="thumb-img"></div>
+            <span class="thumb-view" data-i18n="work.viewcase">View case</span>
+            <span class="thumb-tag" data-i18n="work.c1.sector">Beauty studio</span>
+          </div>
+          <span class="case-sector mono" data-i18n="work.c1.sector">Beauty studio</span>
+          <h3 data-i18n="work.c1.title">Aurora Beauty Studio</h3>
+          <p data-i18n="work.c1.body">A one-page booking site with a photo gallery and a live Instagram feed, so new clients can see the work before they walk in.</p>
+          <div class="case-sample mono" data-i18n="work.sample">Sample project</div>
+        </a>
+
+        <a class="case" href="#contact" data-category="restaurant">
+          <div class="thumb g2 h2">
+            <div class="thumb-img"></div>
+            <span class="thumb-view" data-i18n="work.viewcase">View case</span>
+            <span class="thumb-tag" data-i18n="work.c2.sector">Restaurant</span>
+          </div>
+          <span class="case-sector mono" data-i18n="work.c2.sector">Restaurant</span>
+          <h3 data-i18n="work.c2.title">Bistro Lume</h3>
+          <p data-i18n="work.c2.body">Menu, table reservations, and delivery links in one place, replacing three outdated PDF menus.</p>
+          <div class="case-sample mono" data-i18n="work.sample">Sample project</div>
+        </a>
+
+        <a class="case" href="#contact" data-category="auto">
+          <div class="thumb g3 h3">
+            <div class="thumb-img"></div>
+            <span class="thumb-view" data-i18n="work.viewcase">View case</span>
+            <span class="thumb-tag" data-i18n="work.c3.sector">Auto workshop</span>
+          </div>
+          <span class="case-sector mono" data-i18n="work.c3.sector">Auto workshop</span>
+          <h3 data-i18n="work.c3.title">MotorCraft Garage</h3>
+          <p data-i18n="work.c3.body">Service list, online booking, and a before/after gallery that builds trust before the first visit.</p>
+          <div class="case-sample mono" data-i18n="work.sample">Sample project</div>
+        </a>
+
+        <div class="case-ghost">
+          <a href="#contact">
+            <div class="plus">+</div>
+            <h3 data-i18n="work.ghost.title">Your business here</h3>
+            <p data-i18n="work.ghost.body">Get in touch and let's build the next one.</p>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow mono" data-i18n="process.eyebrow">How it works</div>
+          <h2 data-i18n="process.title">Three steps from nothing to online</h2>
+        </div>
+        <p class="section-sub" data-i18n="process.sub">No jargon, no long contracts. You'll know what's happening at every step.</p>
+      </div>
+      <div class="process">
+        <div class="step">
+          <span class="step-num mono"><b>01</b> / 03</span>
+          <h3 data-i18n="process.p1.title">Brief</h3>
+          <p data-i18n="process.p1.body">A short call or chat about your business, your customers, and what the site needs to do.</p>
+        </div>
+        <div class="step">
+          <span class="step-num mono"><b>02</b> / 03</span>
+          <h3 data-i18n="process.p2.title">Build</h3>
+          <p data-i18n="process.p2.body">We design and build the site, sharing progress so you can react early, not just at the end.</p>
+        </div>
+        <div class="step">
+          <span class="step-num mono"><b>03</b> / 03</span>
+          <h3 data-i18n="process.p3.title">Launch</h3>
+          <p data-i18n="process.p3.body">We connect your domain, put it live, and show you how to update it yourself if you want to.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap contact-grid">
+      <div class="contact-info">
+        <div class="eyebrow mono" data-i18n="contact.eyebrow">Get in touch</div>
+        <h2 data-i18n="contact.title">Tell us about your business</h2>
+        <p data-i18n="contact.sub">Fill in the form, or reach out directly. We'll get back to you within one business day with a plan and a price.</p>
+
+        <a href="mailto:hello@vitrina.dev" class="contact-line">
+          <span class="k mono" data-i18n="contact.emailLabel">Email</span>
+          <span class="v">hello@vitrina.dev</span>
+        </a>
+        <a href="tel:+44000000000" class="contact-line">
+          <span class="k mono" data-i18n="contact.phoneLabel">Phone</span>
+          <span class="v">+44 00 0000 0000</span>
+        </a>
+        <div class="contact-line">
+          <span class="k mono" data-i18n="contact.baseLabel">Based in</span>
+          <span class="v" data-i18n="contact.baseValue">London, UK — working with clients everywhere</span>
+        </div>
+      </div>
+
+      <form id="contactForm">
+        <div class="full">
+          <label for="name" data-i18n="contact.form.name">Name</label>
+          <input type="text" id="name" name="name" required data-i18n-placeholder="contact.form.namePh" placeholder="Your name">
+        </div>
+        <div>
+          <label for="company" data-i18n="contact.form.company">Company</label>
+          <input type="text" id="company" name="company" data-i18n-placeholder="contact.form.companyPh" placeholder="Business name">
+        </div>
+        <div>
+          <label for="email" data-i18n="contact.form.email">Email</label>
+          <input type="email" id="email" name="email" required data-i18n-placeholder="contact.form.emailPh" placeholder="you@email.com">
+        </div>
+        <div class="full">
+          <label for="budget" data-i18n="contact.form.budget">Budget</label>
+          <select id="budget" name="budget">
+            <option data-i18n="contact.form.b1">Not sure yet</option>
+            <option data-i18n="contact.form.b2">Under £500</option>
+            <option data-i18n="contact.form.b3">£500 – £1,500</option>
+            <option data-i18n="contact.form.b4">£1,500+</option>
+          </select>
+        </div>
+        <div class="full">
+          <label for="message" data-i18n="contact.form.message">Message</label>
+          <textarea id="message" name="message" required data-i18n-placeholder="contact.form.messagePh" placeholder="What does your business do, and what do you need?"></textarea>
+        </div>
+        <div class="full submit-row">
+          <button type="submit" class="btn btn-primary" data-i18n="contact.form.submit">Send message</button>
+          <span class="form-note" data-i18n="contact.form.note">We reply within one business day.</span>
+        </div>
+        <div class="full form-success" id="formSuccess" data-i18n="contact.form.success">Thanks — your message is in. We'll reply within one business day.</div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <a href="#top" class="logo"><span class="mark">CS</span><span class="wordmark" data-i18n="hero.eyebrow">Web studio</span></a>
+    <ul class="footer-links">
+      <li><a href="#services" data-i18n="nav.services">Services</a></li>
+      <li><a href="#work" data-i18n="nav.work">Work</a></li>
+      <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+    <span class="fine">© <span id="year"></span> CS — <span data-i18n="footer.rights">All rights reserved</span></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const translations = {
+    en: {
+      nav:{ services:"Services", work:"Work", process:"Process", contact:"Contact", cta:"Get a quote" },
+      hero:{
+        eyebrow:"Web studio",
+        title:"Every business deserves a window on the street called the internet.",
+        lede:"We build fast, honest websites for companies that don't have one yet — restaurants, clinics, workshops and studios that are ready to be found.",
+        cta1:"Get a free quote", cta2:"See our work"
+      },
+      services:{
+        eyebrow:"What we build", title:"Services, laid out like a menu board",
+        sub:"Pick the size that fits where your business is right now. Everything is built to grow with you later.",
+        s1:{title:"Starter Site", body:"A single, sharp page so people can find you: what you do, your hours, your location, and a way to reach you."},
+        s2:{title:"Business Website", body:"A full multi-page site — services, gallery, team, blog — built to represent everything you offer."},
+        s3:{title:"Redesign & Rescue", body:"Your site is old, slow, or broken on mobile. We rebuild it properly without losing what already works."},
+        s4:{title:"Care & Updates", body:"Ongoing hosting, content updates, and small fixes, so the site keeps working long after launch."}
+      },
+      process:{
+        eyebrow:"How it works", title:"Three steps from nothing to online",
+        sub:"No jargon, no long contracts. You'll know what's happening at every step.",
+        p1:{title:"Brief", body:"A short call or chat about your business, your customers, and what the site needs to do."},
+        p2:{title:"Build", body:"We design and build the site, sharing progress so you can react early, not just at the end."},
+        p3:{title:"Launch", body:"We connect your domain, put it live, and show you how to update it yourself if you want to."}
+      },
+      work:{
+        eyebrow:"Selected work", title:"A few windows we've lit up",
+        sub:"Sample case studies below — swap these for your own projects as you take on clients.",
+        viewcase:"View case", sample:"Sample project",
+        filters:{ all:"All", beauty:"Beauty", restaurant:"Restaurant", auto:"Auto" },
+        c1:{sector:"Beauty studio", title:"Aurora Beauty Studio", body:"A one-page booking site with a photo gallery and a live Instagram feed, so new clients can see the work before they walk in."},
+        c2:{sector:"Restaurant", title:"Bistro Lume", body:"Menu, table reservations, and delivery links in one place, replacing three outdated PDF menus."},
+        c3:{sector:"Auto workshop", title:"MotorCraft Garage", body:"Service list, online booking, and a before/after gallery that builds trust before the first visit."},
+        ghost:{title:"Your business here", body:"Get in touch and let's build the next one."}
+      },
+      contact:{
+        eyebrow:"Get in touch", title:"Tell us about your business",
+        sub:"Fill in the form, or reach out directly. We'll get back to you within one business day with a plan and a price.",
+        emailLabel:"Email", phoneLabel:"Phone", baseLabel:"Based in", baseValue:"London, UK — working with clients everywhere",
+        form:{
+          name:"Name", namePh:"Your name",
+          company:"Company", companyPh:"Business name",
+          email:"Email", emailPh:"you@email.com",
+          budget:"Budget", b1:"Not sure yet", b2:"Under £500", b3:"£500 – £1,500", b4:"£1,500+",
+          message:"Message", messagePh:"What does your business do, and what do you need?",
+          submit:"Send message", note:"We reply within one business day.",
+          success:"Thanks — your message is in. We'll reply within one business day."
+        }
+      },
+      footer:{ rights:"All rights reserved" }
+    },
+    ro:{
+      nav:{ services:"Servicii", work:"Portofoliu", process:"Proces", contact:"Contact", cta:"Cere o ofertă" },
+      hero:{
+        eyebrow:"Studio web",
+        title:"Fiecare afacere merită o vitrină pe strada numită internet.",
+        lede:"Construim site-uri rapide și oneste pentru companii care încă nu au unul — restaurante, clinici, ateliere și studiouri gata să fie găsite.",
+        cta1:"Cere o ofertă gratuită", cta2:"Vezi portofoliul"
+      },
+      services:{
+        eyebrow:"Ce construim", title:"Servicii, aranjate ca un meniu",
+        sub:"Alege mărimea potrivită pentru stadiul actual al afacerii tale. Totul este construit ca să crească odată cu tine.",
+        s1:{title:"Site de start", body:"O singură pagină clară, ca să fii găsit: ce faci, programul, locația și un mod de a te contacta."},
+        s2:{title:"Site de afaceri", body:"Un site complet, cu mai multe pagini — servicii, galerie, echipă, blog — construit să reprezinte tot ce oferi."},
+        s3:{title:"Redesign & Salvare", body:"Site-ul tău e vechi, lent sau nu funcționează pe mobil. Îl reconstruim corect, fără să pierzi ce funcționează deja."},
+        s4:{title:"Îngrijire & Actualizări", body:"Găzduire, actualizări de conținut și mici remedieri, ca site-ul să funcționeze bine mult timp după lansare."}
+      },
+      process:{
+        eyebrow:"Cum funcționează", title:"Trei pași de la zero la online",
+        sub:"Fără jargon, fără contracte lungi. Vei ști mereu ce se întâmplă la fiecare pas.",
+        p1:{title:"Discuție", body:"O discuție scurtă despre afacerea ta, clienții tăi și ce trebuie să facă site-ul."},
+        p2:{title:"Construcție", body:"Proiectăm și construim site-ul, împărtășind progresul ca să poți reacționa din timp, nu doar la final."},
+        p3:{title:"Lansare", body:"Conectăm domeniul, punem site-ul live și îți arătăm cum să-l actualizezi singur, dacă vrei."}
+      },
+      work:{
+        eyebrow:"Proiecte selectate", title:"Câteva vitrine pe care le-am aprins",
+        sub:"Mai jos sunt studii de caz exemplu — înlocuiește-le cu proiectele tale pe măsură ce preiei clienți.",
+        viewcase:"Vezi proiectul", sample:"Proiect exemplu",
+        filters:{ all:"Toate", beauty:"Înfrumusețare", restaurant:"Restaurant", auto:"Auto" },
+        c1:{sector:"Studio de înfrumusețare", title:"Aurora Beauty Studio", body:"Un site pe o pagină cu programări, galerie foto și feed live de Instagram, ca noii clienți să vadă lucrările înainte să vină."},
+        c2:{sector:"Restaurant", title:"Bistro Lume", body:"Meniu, rezervări de masă și linkuri de livrare într-un singur loc, în locul a trei meniuri PDF învechite."},
+        c3:{sector:"Atelier auto", title:"MotorCraft Garage", body:"Listă de servicii, programări online și o galerie înainte/după, care câștigă încrederea înainte de prima vizită."},
+        ghost:{title:"Afacerea ta aici", body:"Contactează-ne și hai să construim următorul proiect."}
+      },
+      contact:{
+        eyebrow:"Contactează-ne", title:"Spune-ne despre afacerea ta",
+        sub:"Completează formularul sau scrie-ne direct. Îți răspundem în cel mult o zi lucrătoare, cu un plan și un preț.",
+        emailLabel:"Email", phoneLabel:"Telefon", baseLabel:"Bazați în", baseValue:"Londra, UK — lucrăm cu clienți de oriunde",
+        form:{
+          name:"Nume", namePh:"Numele tău",
+          company:"Companie", companyPh:"Numele afacerii",
+          email:"Email", emailPh:"tu@email.com",
+          budget:"Buget", b1:"Nu știu încă", b2:"Sub 500 £", b3:"500 – 1.500 £", b4:"1.500+ £",
+          message:"Mesaj", messagePh:"Cu ce se ocupă afacerea ta și de ce ai nevoie?",
+          submit:"Trimite mesajul", note:"Răspundem în cel mult o zi lucrătoare.",
+          success:"Mulțumim — mesajul a fost trimis. Îți răspundem în cel mult o zi lucrătoare."
+        }
+      },
+      footer:{ rights:"Toate drepturile rezervate" }
+    },
+    ru:{
+      nav:{ services:"Услуги", work:"Работы", process:"Процесс", contact:"Контакты", cta:"Запросить смету" },
+      hero:{
+        eyebrow:"Веб-студия",
+        title:"У каждого бизнеса должна быть витрина на улице под названием интернет.",
+        lede:"Мы создаём быстрые и честные сайты для компаний, у которых его ещё нет — рестораны, клиники, мастерские и студии, готовые стать заметными.",
+        cta1:"Получить бесплатную смету", cta2:"Смотреть работы"
+      },
+      services:{
+        eyebrow:"Что мы делаем", title:"Услуги — как меню на витрине",
+        sub:"Выберите вариант, который подходит вашему бизнесу сейчас. Всё построено так, чтобы расти вместе с вами.",
+        s1:{title:"Стартовый сайт", body:"Одна чёткая страница, чтобы вас нашли: чем вы занимаетесь, часы работы, адрес и способ связи."},
+        s2:{title:"Бизнес-сайт", body:"Полноценный сайт с несколькими страницами — услуги, галерея, команда, блог — представляющий всё, что вы предлагаете."},
+        s3:{title:"Редизайн и спасение", body:"Ваш сайт устарел, медленный или не работает на телефоне. Мы пересоберём его правильно, не теряя то, что уже работает."},
+        s4:{title:"Поддержка и обновления", body:"Хостинг, обновление контента и мелкие правки, чтобы сайт исправно работал ещё долго после запуска."}
+      },
+      process:{
+        eyebrow:"Как это работает", title:"Три шага от нуля до онлайна",
+        sub:"Без жаргона и долгих договоров. Вы будете знать, что происходит на каждом шаге.",
+        p1:{title:"Бриф", body:"Короткий звонок или переписка о вашем бизнесе, клиентах и задачах будущего сайта."},
+        p2:{title:"Разработка", body:"Мы проектируем и собираем сайт, показывая прогресс, чтобы вы могли вносить правки заранее, а не только в конце."},
+        p3:{title:"Запуск", body:"Подключаем домен, публикуем сайт и показываем, как обновлять его самостоятельно, если захотите."}
+      },
+      work:{
+        eyebrow:"Избранные работы", title:"Несколько витрин, которые мы зажгли",
+        sub:"Ниже — примеры кейсов. Замените их своими проектами по мере появления клиентов.",
+        viewcase:"Смотреть кейс", sample:"Пример проекта",
+        filters:{ all:"Все", beauty:"Красота", restaurant:"Ресторан", auto:"Авто" },
+        c1:{sector:"Студия красоты", title:"Aurora Beauty Studio", body:"Одностраничный сайт с записью, фотогалереей и лентой Instagram, чтобы новые клиенты видели работы до визита."},
+        c2:{sector:"Ресторан", title:"Bistro Lume", body:"Меню, бронирование столиков и ссылки на доставку в одном месте — вместо трёх устаревших PDF-меню."},
+        c3:{sector:"Автомастерская", title:"MotorCraft Garage", body:"Список услуг, онлайн-запись и галерея «до/после», формирующая доверие ещё до первого визита."},
+        ghost:{title:"Ваш бизнес здесь", body:"Свяжитесь с нами — построим следующий проект вместе."}
+      },
+      contact:{
+        eyebrow:"Связаться с нами", title:"Расскажите о своём бизнесе",
+        sub:"Заполните форму или напишите напрямую. Ответим в течение одного рабочего дня с планом и стоимостью.",
+        emailLabel:"Email", phoneLabel:"Телефон", baseLabel:"Находимся в", baseValue:"Лондон, Великобритания — работаем с клиентами из любой точки",
+        form:{
+          name:"Имя", namePh:"Ваше имя",
+          company:"Компания", companyPh:"Название бизнеса",
+          email:"Email", emailPh:"you@email.com",
+          budget:"Бюджет", b1:"Пока не знаю", b2:"До £500", b3:"£500 – £1500", b4:"£1500+",
+          message:"Сообщение", messagePh:"Чем занимается ваш бизнес и что вам нужно?",
+          submit:"Отправить сообщение", note:"Отвечаем в течение одного рабочего дня.",
+          success:"Спасибо — сообщение отправлено. Ответим в течение одного рабочего дня."
+        }
+      },
+      footer:{ rights:"Все права защищены" }
+    }
+  };
+
+  function getKey(obj, path){
+    return path.split('.').reduce((o,k)=> (o && o[k] !== undefined) ? o[k] : null, obj);
+  }
+
+  function setLanguage(lang){
+    if(!translations[lang]) lang = 'en';
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      const key = el.getAttribute('data-i18n');
+      const text = getKey(translations[lang], key);
+      if(text !== null) el.textContent = text;
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el){
+      const key = el.getAttribute('data-i18n-placeholder');
+      const text = getKey(translations[lang], key);
+      if(text !== null) el.setAttribute('placeholder', text);
+    });
+    document.querySelectorAll('.lang-btn').forEach(function(b){
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    try{ localStorage.setItem('vitrina-lang', lang); }catch(e){}
+  }
+
+  document.querySelectorAll('.lang-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){ setLanguage(btn.dataset.lang); });
+  });
+
+  let initial = 'en';
+  try{
+    const saved = localStorage.getItem('vitrina-lang');
+    if(saved){ initial = saved; }
+    else{
+      const bl = (navigator.language || 'en').slice(0,2);
+      if(bl === 'ro' || bl === 'ru') initial = bl;
+    }
+  }catch(e){}
+  setLanguage(initial);
+
+  // header scroll state
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', function(){
+    header.classList.toggle('scrolled', window.scrollY > 10);
+  });
+
+  // mobile nav
+  const burger = document.getElementById('burger');
+  const panel = document.getElementById('mobilePanel');
+  burger.addEventListener('click', function(){
+    burger.classList.toggle('open');
+    panel.classList.toggle('open');
+  });
+  panel.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      burger.classList.remove('open');
+      panel.classList.remove('open');
+    });
+  });
+
+  // portfolio filter
+  const filterBar = document.getElementById('filterBar');
+  const cases = document.querySelectorAll('#portfolioGrid .case');
+  filterBar.addEventListener('click', function(e){
+    const btn = e.target.closest('.filter-pill');
+    if(!btn) return;
+    filterBar.querySelectorAll('.filter-pill').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    cases.forEach(function(c){
+      const show = filter === 'all' || c.dataset.category === filter;
+      c.style.display = show ? '' : 'none';
+    });
+  });
+
+  // contact form (front-end only — wire up a real endpoint, see note in chat)
+  const form = document.getElementById('contactForm');
+  const success = document.getElementById('formSuccess');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    success.classList.add('show');
+    form.reset();
+  });
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+
+</body>
+</html>
