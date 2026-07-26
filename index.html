@@ -169,6 +169,8 @@
 
   /* ---------- SECTION SHARED ---------- */
   section{ padding:100px 0; border-top:1px solid var(--line); }
+  #work{ padding:56px 0; }
+  #work .section-head{ margin-bottom:18px; }
   .section-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:24px; margin-bottom:48px; flex-wrap:wrap; }
   .section-head h2{ font-size:clamp(1.6rem, 2.8vw, 2.2rem); max-width:18ch; }
   .section-head .eyebrow{ margin-bottom:14px; }
@@ -190,85 +192,101 @@
     border-radius:999px;
   }
 
-  /* ---------- SERVICES ---------- */
-  .services-grid{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
+  /* ---------- SERVICES (simple price list) ---------- */
+  .services-list{ display:flex; flex-direction:column; }
+  .service-row{
+    display:flex; align-items:center; gap:24px;
+    padding:28px 0; border-top:1px solid var(--line);
+    text-decoration:none; color:var(--ink);
+    transition:padding-left .2s ease;
+  }
+  .services-list .service-row:last-child{ border-bottom:1px solid var(--line); }
+  .service-row:hover{ padding-left:8px; }
+  .service-num{ font-family:'JetBrains Mono', monospace; font-size:0.78rem; color:var(--muted); flex-shrink:0; width:26px; }
+  .service-info{ flex:1; min-width:0; }
+  .service-info h3{ font-size:1.08rem; margin-bottom:4px; }
+  .service-info p{ color:var(--muted); font-size:0.9rem; margin:0; }
+  .service-price{
+    font-family:'JetBrains Mono', monospace; font-size:0.82rem; letter-spacing:0.02em;
+    color:var(--ink); white-space:nowrap; background:var(--paper-card);
+    border:1px solid var(--line); padding:9px 16px; border-radius:999px; flex-shrink:0;
+  }
+
+  /* ---------- GALLERY (full-bleed horizontal scroll) ---------- */
+  .gallery-wrap{
+    position:relative;
+    width:100vw;
+    margin-left:calc(50% - 50vw);
+  }
+  .gallery-scroll{
+    display:flex;
+    align-items:center;
     gap:20px;
+    overflow-x:auto;
+    overflow-y:visible;
+    scroll-snap-type:x proximity;
+    padding:56px 28px;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
   }
-  .service{ text-decoration:none; }
-  .service .thumb{ margin-bottom:16px; display:flex; align-items:center; justify-content:center; }
-  .service .thumb span{ font-family:'Fraunces', serif; font-weight:400; font-style:italic; font-size:1.6rem; color:rgba(27,26,23,0.5); }
-  .service h3{ font-size:1.02rem; margin-bottom:6px; }
-  .service p{ color:var(--muted); font-size:0.88rem; margin:0; }
-  .service .thumb.t1{ background:linear-gradient(155deg,var(--t1a),var(--t1b)); }
-  .service .thumb.t2{ background:linear-gradient(155deg,var(--t2a),var(--t2b)); }
-  .service .thumb.t3{ background:linear-gradient(155deg,var(--t3a),var(--t3b)); }
-  .service .thumb.t4{ background:linear-gradient(155deg,var(--t4a),var(--t4b)); }
-
-  /* ---------- PROCESS ---------- */
-  .process{ display:grid; grid-template-columns:repeat(3, 1fr); gap:32px; }
-  .step{ position:relative; padding-top:8px; }
-  .step .step-num{ font-family:'JetBrains Mono', monospace; color:var(--muted); font-size:0.8rem; display:block; margin-bottom:14px; }
-  .step .step-num b{ color:var(--accent); }
-  .step h3{ font-size:1.08rem; margin-bottom:8px; }
-  .step p{ color:var(--muted); font-size:0.92rem; margin:0; }
-
-  /* ---------- PORTFOLIO (masonry gallery) ---------- */
-  .filter-bar{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:36px; }
-  .filter-pill{
-    background:var(--paper-card); border:1px solid var(--line); color:var(--muted);
-    font-family:'JetBrains Mono', monospace; font-size:0.72rem; letter-spacing:0.05em; text-transform:uppercase;
-    padding:8px 16px; border-radius:999px; cursor:pointer; transition:all .18s ease;
-  }
-  .filter-pill.active{ background:var(--ink); color:#fff; border-color:var(--ink); }
-  .filter-pill:not(.active):hover{ border-color:var(--ink); color:var(--ink); }
-
-  .portfolio-grid{ columns:3 260px; column-gap:20px; }
-  .case{
-    break-inside:avoid;
-    margin-bottom:20px;
+  .gallery-scroll::-webkit-scrollbar{ display:none; }
+  .gallery-item{
+    flex:0 0 auto;
+    width:min(620px, 82vw);
+    aspect-ratio:4/3;
+    border-radius:10px;
+    background-size:cover;
+    background-position:center;
+    scroll-snap-align:start;
     display:block;
-    text-decoration:none;
+    transition:transform .35s ease, box-shadow .35s ease;
+    will-change:transform;
+  }
+  .gallery-item:hover{
+    transform:scale(1.18);
+    box-shadow:0 22px 44px rgba(27,26,23,0.28);
+    z-index:2;
+    position:relative;
+  }
+  .gallery-arrow{
+    position:absolute;
+    top:0;
+    bottom:0;
+    width:110px;
+    z-index:3;
+    border:none;
+    display:flex;
+    align-items:center;
+    cursor:pointer;
     color:var(--ink);
+    backdrop-filter:blur(7px);
+    -webkit-backdrop-filter:blur(7px);
   }
-  .case .thumb{ margin-bottom:14px; transition:transform .4s ease; }
-  .case:hover .thumb{ transform:scale(1.035); }
-  .case .thumb.h1{ aspect-ratio:4/5; }
-  .case .thumb.h2{ aspect-ratio:4/3; }
-  .case .thumb.h3{ aspect-ratio:1/1; }
-  .thumb-view{
-    position:absolute; top:10px; right:10px;
-    background:#fff; color:var(--ink);
-    font-size:0.68rem; font-weight:600;
-    padding:6px 11px; border-radius:999px;
-    opacity:0; transform:translateY(-4px);
-    transition:all .2s ease;
+  .gallery-arrow.prev{
+    left:0; justify-content:flex-start; padding-left:18px;
+    background:linear-gradient(to right, rgba(246,243,236,0.75) 0%, rgba(246,243,236,0.4) 55%, rgba(246,243,236,0) 100%);
+    -webkit-mask-image:linear-gradient(to right, #000 0%, #000 60%, transparent 100%);
+    mask-image:linear-gradient(to right, #000 0%, #000 60%, transparent 100%);
   }
-  .case:hover .thumb-view{ opacity:1; transform:translateY(0); }
-  .case-sector{ font-size:0.68rem; color:var(--accent); display:block; margin-bottom:6px; }
-  .case h3{ font-size:1.02rem; margin-bottom:6px; }
-  .case p{ color:var(--muted); font-size:0.88rem; margin:0 0 6px; }
-  .case-sample{ font-size:0.66rem; color:var(--muted); }
-
-  .thumb.g1{ background:linear-gradient(160deg,var(--t5a),var(--t5b)); }
-  .thumb.g2{ background:linear-gradient(160deg,var(--t3a),var(--t3b)); }
-  .thumb.g3{ background:linear-gradient(160deg,var(--t4a),var(--t4b)); }
-
-  .case-ghost{
-    break-inside:avoid; margin-bottom:20px;
-    border:1px dashed var(--line); border-radius:10px;
-    display:flex; align-items:center; justify-content:center; text-align:center;
-    padding:44px 24px; min-height:220px;
+  .gallery-arrow.next{
+    right:0; justify-content:flex-end; padding-right:18px;
+    background:linear-gradient(to left, rgba(246,243,236,0.75) 0%, rgba(246,243,236,0.4) 55%, rgba(246,243,236,0) 100%);
+    -webkit-mask-image:linear-gradient(to left, #000 0%, #000 60%, transparent 100%);
+    mask-image:linear-gradient(to left, #000 0%, #000 60%, transparent 100%);
   }
-  .case-ghost a{ text-decoration:none; color:var(--muted); }
-  .case-ghost .plus{
-    width:40px; height:40px; border:1px solid var(--line); border-radius:50%;
-    display:flex; align-items:center; justify-content:center; margin:0 auto 14px;
-    font-size:1.2rem; color:var(--accent);
+  .gallery-arrow .arrow-icon{
+    width:42px; height:42px; border-radius:50%;
+    background:rgba(255,255,255,0.55);
+    border:1px solid rgba(255,255,255,0.7);
+    display:flex; align-items:center; justify-content:center;
+    transition:background .2s ease, border-color .2s ease, transform .2s ease;
   }
-  .case-ghost h3{ font-size:0.98rem; color:var(--ink); margin-bottom:6px; }
-  .case-ghost p{ color:var(--muted); font-size:0.86rem; }
+  .gallery-arrow:hover .arrow-icon{ background:var(--ink); border-color:var(--ink); color:var(--paper); }
+  .gallery-arrow:active .arrow-icon{ transform:scale(0.92); }
+  .gallery-arrow svg{ width:18px; height:18px; }
+  @media (max-width:700px){
+    .gallery-arrow{ display:none; }
+  }
 
   /* ---------- CONTACT ---------- */
   .contact-grid{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:56px; }
@@ -320,20 +338,17 @@
     .hero-foot{ flex-direction:column; align-items:flex-start; }
     .hero-meta{ grid-template-columns:repeat(2,1fr); }
     .hero-meta div{ border-bottom:1px solid var(--line); }
-    .services-grid{ grid-template-columns:repeat(2,1fr); }
-    .process{ grid-template-columns:1fr; }
     .contact-grid{ grid-template-columns:1fr; }
     form{ grid-template-columns:1fr; }
-    .portfolio-grid{ columns:2 220px; }
     .footer-cols{ grid-template-columns:1fr 1fr; row-gap:32px; }
     section{ padding:70px 0; }
     .hero{ padding:126px 0 0; }
   }
   @media (max-width:560px){
-    .services-grid{ grid-template-columns:1fr; }
-    .portfolio-grid{ columns:1; }
     .hero-meta{ grid-template-columns:1fr; }
     .footer-cols{ grid-template-columns:1fr; }
+    .service-row{ align-items:flex-start; flex-wrap:wrap; }
+    .service-price{ margin-left:38px; }
   }
 </style>
 </head>
@@ -343,9 +358,8 @@
   <nav class="wrap">
     <a href="#top" class="logo"><span class="mark">CSwebD</span><span class="wordmark" data-i18n="hero.eyebrow">Web studio</span></a>
     <ul class="nav-links">
-      <li><a href="#services" data-i18n="nav.services">Services</a></li>
       <li><a href="#work" data-i18n="nav.work">Work</a></li>
-      <li><a href="#process" data-i18n="nav.process">Process</a></li>
+      <li><a href="#services" data-i18n="nav.services">Services</a></li>
       <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
     </ul>
     <div class="nav-right">
@@ -359,9 +373,8 @@
     </div>
   </nav>
   <div class="mobile-panel" id="mobilePanel">
-    <a href="#services" data-i18n="nav.services">Services</a>
     <a href="#work" data-i18n="nav.work">Work</a>
-    <a href="#process" data-i18n="nav.process">Process</a>
+    <a href="#services" data-i18n="nav.services">Services</a>
     <a href="#contact" data-i18n="nav.contact">Contact</a>
   </div>
 </header>
@@ -375,7 +388,7 @@
         <div class="eyebrow mono" data-i18n="hero.eyebrow">Web studio</div>
         <span class="hero-num">01 — EST. 2026</span>
       </div>
-      <h1 data-i18n="hero.title">Every business deserves a window on the street called the internet.</h1>
+      <h1 data-i18n="hero.title">Every business deserves a real website of its own.</h1>
       <div class="hero-foot">
         <p class="lede" data-i18n="hero.lede">We build fast, honest websites for companies that don't have one yet — restaurants, clinics, workshops and studios that are ready to be found.</p>
         <div class="hero-actions">
@@ -398,9 +411,39 @@
         </div>
         <div>
           <span class="k" data-i18n="contact.baseLabel">Based in</span>
-          <span class="v">London, UK / Chișinău, Moldova</span>
+          <span class="v" data-i18n="contact.baseValue">Chișinău, Moldova</span>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="work">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow mono" data-i18n="work.eyebrow">Selected work</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gallery-wrap">
+      <button class="gallery-arrow prev" id="galleryPrev" aria-label="Scroll left">
+        <span class="arrow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></span>
+      </button>
+      <div class="gallery-scroll" id="gallery">
+        <a class="gallery-item" href="https://skill-maps.com" target="_blank" rel="noopener" style="background-image:url('images/img01.png')" aria-label="Project 1"></a>
+        <a class="gallery-item" href="https://myeyes.netlify.app/" target="_blank" rel="noopener" style="background-image:url('images/img02.png')" aria-label="Project 2"></a>
+        <a class="gallery-item" href="https://cristi-s-cuisine.netlify.app/" target="_blank" rel="noopener" style="background-image:url('images/img03.png')" aria-label="Project 3"></a>
+        <a class="gallery-item" href="https://smart-adviser.netlify.app/" target="_blank" rel="noopener" style="background-image:url('images/img04.png')" aria-label="Project 4"></a>
+        <a class="gallery-item" href="https://cs-cristi.netlify.app/" target="_blank" rel="noopener" style="background-image:url('images/img05.png')" aria-label="Project 5"></a>
+        <a class="gallery-item" href="https://en-grammary.netlify.app/" target="_blank" rel="noopener" style="background-image:url('images/img06.png')" aria-label="Project 6"></a>
+        <a class="gallery-item" href="https://travel-lor.netlify.app/" target="_blank" rel="noopener" style="background-image:url('images/img07.png')" aria-label="Project 7"></a>
+        <a class="gallery-item" href="https://dom-real-estate.netlify.app/" target="_blank" rel="noopener" style="background-image:url('images/img08.png')" aria-label="Project 8"></a>
+      </div>
+      <button class="gallery-arrow next" id="galleryNext" aria-label="Scroll right">
+        <span class="arrow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+      </button>
     </div>
   </section>
 
@@ -414,177 +457,39 @@
         </div>
         <p class="section-sub" data-i18n="services.sub">Pick the size that fits where your business is right now. Everything is built to grow with you later.</p>
       </div>
-      <div class="services-grid">
-        <a class="service" href="#contact">
-          <div class="thumb t1"><span>01</span></div>
-          <h3 data-i18n="services.s1.title">Starter Site</h3>
-          <p data-i18n="services.s1.body">A single, sharp page so people can find you: what you do, your hours, your location, and a way to reach you.</p>
+      <div class="services-list">
+        <a class="service-row" href="#contact">
+          <span class="service-num mono">01</span>
+          <span class="service-info">
+            <h3 data-i18n="services.s1.title">Starter Site</h3>
+            <p data-i18n="services.s1.body">A single, sharp page so people can find you: what you do, your hours, your location, and a way to reach you.</p>
+          </span>
+          <span class="service-price" data-i18n="services.s1.price">from 3,000 lei</span>
         </a>
-        <a class="service" href="#contact">
-          <div class="thumb t2"><span>02</span></div>
-          <h3 data-i18n="services.s2.title">Business Website</h3>
-          <p data-i18n="services.s2.body">A full multi-page site — services, gallery, team, blog — built to represent everything you offer.</p>
+        <a class="service-row" href="#contact">
+          <span class="service-num mono">02</span>
+          <span class="service-info">
+            <h3 data-i18n="services.s2.title">Business Website</h3>
+            <p data-i18n="services.s2.body">A full multi-page site — services, gallery, team, blog — built to represent everything you offer.</p>
+          </span>
+          <span class="service-price" data-i18n="services.s2.price">from 7,000 lei</span>
         </a>
-        <a class="service" href="#contact">
-          <div class="thumb t3"><span>03</span></div>
-          <h3 data-i18n="services.s3.title">Redesign &amp; Rescue</h3>
-          <p data-i18n="services.s3.body">Your site is old, slow, or broken on mobile. We rebuild it properly without losing what already works.</p>
+        <a class="service-row" href="#contact">
+          <span class="service-num mono">03</span>
+          <span class="service-info">
+            <h3 data-i18n="services.s3.title">Redesign &amp; Rescue</h3>
+            <p data-i18n="services.s3.body">Your site is old, slow, or broken on mobile. We rebuild it properly without losing what already works.</p>
+          </span>
+          <span class="service-price" data-i18n="services.s3.price">from 4,000 lei</span>
         </a>
-        <a class="service" href="#contact">
-          <div class="thumb t4"><span>04</span></div>
-          <h3 data-i18n="services.s4.title">Care &amp; Updates</h3>
-          <p data-i18n="services.s4.body">Ongoing hosting, content updates, and small fixes, so the site keeps working long after launch.</p>
+        <a class="service-row" href="#contact">
+          <span class="service-num mono">04</span>
+          <span class="service-info">
+            <h3 data-i18n="services.s4.title">Care &amp; Updates</h3>
+            <p data-i18n="services.s4.body">Ongoing hosting, content updates, and small fixes, so the site keeps working long after launch.</p>
+          </span>
+          <span class="service-price" data-i18n="services.s4.price">from 500 lei / month</span>
         </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- PORTFOLIO -->
-  <section id="work">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <div class="eyebrow mono" data-i18n="work.eyebrow">Selected work</div>
-          <h2 data-i18n="work.title">A few windows we've lit up</h2>
-        </div>
-        <p class="section-sub" data-i18n="work.sub">Sample case studies below — swap these for your own projects as you take on clients.</p>
-      </div>
-
-      <div class="filter-bar" id="filterBar">
-        <button class="filter-pill active" data-filter="all" data-i18n="work.filters.all">All</button>
-        <button class="filter-pill" data-filter="brand" data-i18n="work.filters.brand">Branding</button>
-        <button class="filter-pill" data-filter="portfolio" data-i18n="work.filters.portfolio">Portfolio</button>
-        <button class="filter-pill" data-filter="web" data-i18n="work.filters.web">Web Design</button>
-      </div>
-
-      <div class="portfolio-grid" id="portfolioGrid">
-
-        <a class="case" href="https://skill-maps.com" target="_blank" rel="noopener" data-category="portfolio">
-          <div class="thumb g1 h2" style="background-image:url('images/img01.png');background-size:cover;background-position:center;">
-            <span class="thumb-view" data-i18n="work.viewcase">View case</span>
-            <span class="thumb-tag" data-i18n="work.c1.sector">Portfolio</span>
-          </div>
-          <span class="case-sector mono" data-i18n="work.c1.sector">Portfolio</span>
-          <h3 data-i18n="work.c1.title">Skill Maps</h3>
-          <p data-i18n="work.c1.body">A dark, editorial grid built to let bold photography carry the story, project by project.</p>
-          <div class="case-sample mono" data-i18n="work.sample">Sample project</div>
-        </a>
-
-        <a class="case" href="https://myeyes.netlify.app/" target="_blank" rel="noopener" data-category="brand">
-          <div class="thumb g2 h1" style="background-image:url('images/img02.png');background-size:cover;background-position:center;">
-            <span class="thumb-view" data-i18n="work.viewcase">View case</span>
-            <span class="thumb-tag" data-i18n="work.c2.sector">Branding</span>
-          </div>
-          <span class="case-sector mono" data-i18n="work.c2.sector">Branding</span>
-          <h3 data-i18n="work.c2.title">Nail & Brow Studio</h3>
-          <p data-i18n="work.c2.body">A softly textured brand site built around a single serif wordmark and a philosophy of care.</p>
-          <div class="case-sample mono" data-i18n="work.sample">Sample project</div>
-        </a>
-
-        <a class="case" href="https://cristi-s-cuisine.netlify.app/" target="_blank" rel="noopener" data-category="brand">
-          <div class="thumb g3 h3" style="background-image:url('images/img03.png');background-size:cover;background-position:center;">
-            <span class="thumb-view" data-i18n="work.viewcase">View case</span>
-            <span class="thumb-tag" data-i18n="work.c3.sector">Branding</span>
-          </div>
-          <span class="case-sector mono" data-i18n="work.c3.sector">Branding</span>
-          <h3 data-i18n="work.c3.title">Cristi's Cuisine</h3>
-          <p data-i18n="work.c3.body">Brand guidelines for a research and strategy studio, built around chrome type and iridescent motion.</p>
-          <div class="case-sample mono" data-i18n="work.sample">Sample project</div>
-        </a>
-
-        <a class="case" href="https://smart-adviser.netlify.app/" target="_blank" rel="noopener" data-category="portfolio">
-          <div class="thumb g1 h3" style="background-image:url('images/img04.png');background-size:cover;background-position:center;">
-            <span class="thumb-view" data-i18n="work.viewcase">View case</span>
-            <span class="thumb-tag" data-i18n="work.c4.sector">Portfolio</span>
-          </div>
-          <span class="case-sector mono" data-i18n="work.c4.sector">Portfolio</span>
-          <h3 data-i18n="work.c4.title">Smart Adviser</h3>
-          <p data-i18n="work.c4.body">A playful, hand-illustrated portfolio cover for a 2D illustrator, packed with stickers and character.</p>
-          <div class="case-sample mono" data-i18n="work.sample">Sample project</div>
-        </a>
-
-        <a class="case" href="https://cs-cristi.netlify.app/" target="_blank" rel="noopener" data-category="portfolio">
-          <div class="thumb g2 h2" style="background-image:url('images/img05.png');background-size:cover;background-position:center;">
-            <span class="thumb-view" data-i18n="work.viewcase">View case</span>
-            <span class="thumb-tag" data-i18n="work.c5.sector">Portfolio</span>
-          </div>
-          <span class="case-sector mono" data-i18n="work.c5.sector">Portfolio</span>
-          <h3 data-i18n="work.c5.title">Profile Portfolio</h3>
-          <p data-i18n="work.c5.body">An oversized, type-led portfolio landing page for a brand identity designer, built to read in one glance.</p>
-          <div class="case-sample mono" data-i18n="work.sample">Sample project</div>
-        </a>
-
-        <a class="case" href="https://en-grammary.netlify.app/" data-category="web">
-          <div class="thumb g3 h1" style="background-image:url('images/img06.png');background-size:cover;background-position:center;">
-            <span class="thumb-view" data-i18n="work.viewcase">View case</span>
-            <span class="thumb-tag" data-i18n="work.c6.sector">Web Design</span>
-          </div>
-          <span class="case-sector mono" data-i18n="work.c6.sector">Web Design</span>
-          <h3 data-i18n="work.c6.title">English Grammary</h3>
-          <p data-i18n="work.c6.body">A restrained, document-style website for an architecture studio, letting section drawings do the talking.</p>
-          <div class="case-sample mono" data-i18n="work.sample">Sample project</div>
-        </a>
-
-        <a class="case" href="https://travel-lor.netlify.app/" data-category="web">
-          <div class="thumb g1 h2" style="background-image:url('images/img07.png');background-size:cover;background-position:center;">
-            <span class="thumb-view" data-i18n="work.viewcase">View case</span>
-            <span class="thumb-tag" data-i18n="work.c7.sector">Web Design</span>
-          </div>
-          <span class="case-sector mono" data-i18n="work.c7.sector">Web Design</span>
-          <h3 data-i18n="work.c7.title">Travellor</h3>
-          <p data-i18n="work.c7.body">A seasonal, art-directed landing page for a creative studio's work index, shot on location.</p>
-          <div class="case-sample mono" data-i18n="work.sample">Sample project</div>
-        </a>
-
-        <a class="case" href="https://dom-real-estate.netlify.app/" data-category="web">
-          <div class="thumb g2 h3" style="background-image:url('images/img08.png');background-size:cover;background-position:center;">
-            <span class="thumb-view" data-i18n="work.viewcase">View case</span>
-            <span class="thumb-tag" data-i18n="work.c8.sector">Web Design</span>
-          </div>
-          <span class="case-sector mono" data-i18n="work.c8.sector">Web Design</span>
-          <h3 data-i18n="work.c8.title">Plinth</h3>
-          <p data-i18n="work.c8.body">An e-commerce site for a boutique wine label, styled like a lifestyle shoot rather than a store.</p>
-          <div class="case-sample mono" data-i18n="work.sample">Sample project</div>
-        </a>
-
-        <div class="case-ghost">
-          <a href="#contact">
-            <div class="plus">+</div>
-            <h3 data-i18n="work.ghost.title">Your business here</h3>
-            <p data-i18n="work.ghost.body">Get in touch and let's build the next one.</p>
-          </a>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- PROCESS -->
-  <section id="process">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <div class="eyebrow mono" data-i18n="process.eyebrow">How it works</div>
-          <h2 data-i18n="process.title">Three steps from nothing to online</h2>
-        </div>
-        <p class="section-sub" data-i18n="process.sub">No jargon, no long contracts. You'll know what's happening at every step.</p>
-      </div>
-      <div class="process">
-        <div class="step">
-          <span class="step-num mono"><b>01</b> / 03</span>
-          <h3 data-i18n="process.p1.title">Brief</h3>
-          <p data-i18n="process.p1.body">A short call or chat about your business, your customers, and what the site needs to do.</p>
-        </div>
-        <div class="step">
-          <span class="step-num mono"><b>02</b> / 03</span>
-          <h3 data-i18n="process.p2.title">Build</h3>
-          <p data-i18n="process.p2.body">We design and build the site, sharing progress so you can react early, not just at the end.</p>
-        </div>
-        <div class="step">
-          <span class="step-num mono"><b>03</b> / 03</span>
-          <h3 data-i18n="process.p3.title">Launch</h3>
-          <p data-i18n="process.p3.body">We connect your domain, put it live, and show you how to update it yourself if you want to.</p>
-        </div>
       </div>
     </div>
   </section>
@@ -607,11 +512,15 @@
         </a>
         <div class="contact-line">
           <span class="k mono" data-i18n="contact.baseLabel">Based in</span>
-          <span class="v" data-i18n="contact.baseValue">London, UK & Chișinău, Moldova — working with clients everywhere</span>
+          <span class="v" data-i18n="contact.baseValue">Chișinău, Moldova — working with clients everywhere</span>
         </div>
       </div>
 
-      <form id="contactForm">
+      <form id="contactForm" action="https://formsubmit.co/cswebd.info@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="New inquiry from the CSwebD website">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
         <div class="full">
           <label for="name" data-i18n="contact.form.name">Name</label>
           <input type="text" id="name" name="name" required data-i18n-placeholder="contact.form.namePh" placeholder="Your name">
@@ -628,9 +537,9 @@
           <label for="budget" data-i18n="contact.form.budget">Budget</label>
           <select id="budget" name="budget">
             <option data-i18n="contact.form.b1">Not sure yet</option>
-            <option data-i18n="contact.form.b2">Under £500</option>
-            <option data-i18n="contact.form.b3">£500 – £1,500</option>
-            <option data-i18n="contact.form.b4">£1,500+</option>
+            <option data-i18n="contact.form.b2">Under 5,000 lei</option>
+            <option data-i18n="contact.form.b3">5,000 – 15,000 lei</option>
+            <option data-i18n="contact.form.b4">15,000+ lei</option>
           </select>
         </div>
         <div class="full">
@@ -642,6 +551,7 @@
           <span class="form-note" data-i18n="contact.form.note">We reply within one business day.</span>
         </div>
         <div class="full form-success" id="formSuccess" data-i18n="contact.form.success">Thanks — your message is in. We'll reply within one business day.</div>
+        <div class="full form-success" id="formError" style="background:#F6E3E0; border-color:#B4472E; color:#8A2A16;">Something went wrong sending your message — please email us directly at cswebd.info@gmail.com.</div>
       </form>
     </div>
   </section>
@@ -657,9 +567,8 @@
       </div>
       <div>
         <span class="fk">Nav</span>
-        <a href="#services" data-i18n="nav.services">Services</a>
         <a href="#work" data-i18n="nav.work">Work</a>
-        <a href="#process" data-i18n="nav.process">Process</a>
+        <a href="#services" data-i18n="nav.services">Services</a>
       </div>
       <div>
         <span class="fk" data-i18n="contact.eyebrow">Get in touch</span>
@@ -675,8 +584,8 @@
     <div class="footer-row">
       <span class="fine">© <span id="year"></span> CSwebD — <span data-i18n="footer.rights">All rights reserved</span></span>
       <ul class="footer-links">
-        <li><a href="#services" data-i18n="nav.services">Services</a></li>
         <li><a href="#work" data-i18n="nav.work">Work</a></li>
+        <li><a href="#services" data-i18n="nav.services">Services</a></li>
         <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
       </ul>
     </div>
@@ -687,52 +596,34 @@
 (function(){
   const translations = {
     en: {
-      nav:{ services:"Services", work:"Work", process:"Process", contact:"Contact", cta:"Get a quote" },
+      nav:{ services:"Services", work:"Work", contact:"Contact", cta:"Get a quote" },
       hero:{
         eyebrow:"Web studio",
-        title:"Every business deserves a window on the street called the internet.",
-        lede:"We build fast, honest websites for companies that don't have one yet — restaurants, clinics, workshops and studios that are ready to be found.",
+        title:"Every business deserves a real website of its own.",
+        lede:"We build fast, honest websites for companies that don't have one yet — restaurants, clinics, workshops and studios that are ready to be found online.",
         cta1:"Get a free quote", cta2:"See our work"
       },
       services:{
-        eyebrow:"What we build", title:"Services, laid out like a menu board",
-        sub:"Pick the size that fits where your business is right now. Everything is built to grow with you later.",
-        s1:{title:"Starter Site", body:"A single, sharp page so people can find you: what you do, your hours, your location, and a way to reach you."},
-        s2:{title:"Business Website", body:"A full multi-page site — services, gallery, team, blog — built to represent everything you offer."},
-        s3:{title:"Redesign & Rescue", body:"Your site is old, slow, or broken on mobile. We rebuild it properly without losing what already works."},
-        s4:{title:"Care & Updates", body:"Ongoing hosting, content updates, and small fixes, so the site keeps working long after launch."}
-      },
-      process:{
-        eyebrow:"How it works", title:"Three steps from nothing to online",
-        sub:"No jargon, no long contracts. You'll know what's happening at every step.",
-        p1:{title:"Brief", body:"A short call or chat about your business, your customers, and what the site needs to do."},
-        p2:{title:"Build", body:"We design and build the site, sharing progress so you can react early, not just at the end."},
-        p3:{title:"Launch", body:"We connect your domain, put it live, and show you how to update it yourself if you want to."}
+        eyebrow:"What we build", title:"Services and prices",
+        sub:"A small, clear list. Pick the size that fits where your business is right now.",
+        s1:{title:"Starter Site", body:"A single, sharp page so people can find you: what you do, your hours, your location, and a way to reach you.", price:"from 3,000 lei"},
+        s2:{title:"Business Website", body:"A full multi-page site — services, gallery, team, blog — built to represent everything you offer.", price:"from 7,000 lei"},
+        s3:{title:"Redesign & Rescue", body:"Your site is old, slow, or broken on mobile. We rebuild it properly without losing what already works.", price:"from 4,000 lei"},
+        s4:{title:"Care & Updates", body:"Ongoing hosting, content updates, and small fixes, so the site keeps working long after launch.", price:"from 500 lei / month"}
       },
       work:{
-        eyebrow:"Selected work", title:"A few windows we've lit up",
-        sub:"Sample case studies below — swap these for your own projects as you take on clients.",
-        viewcase:"View case", sample:"Sample project",
-        filters:{ all:"All", brand:"Branding", portfolio:"Portfolio", web:"Web Design" },
-        c1:{sector:"Portfolio", title:"Skill Maps", body:"A dark, editorial grid built to let bold photography carry the story, project by project."},
-        c2:{sector:"Branding", title:"Nail & Brow Studio", body:"A softly textured brand site built around a single serif wordmark and a philosophy of care."},
-        c3:{sector:"Branding", title:"Cristi's Cuisine", body:"Brand guidelines for a research and strategy studio, built around chrome type and iridescent motion."},
-        c4:{sector:"Portfolio", title:"Smart Adviser", body:"A playful, hand-illustrated portfolio cover for a 2D illustrator, packed with stickers and character."},
-        c5:{sector:"Portfolio", title:"Profile Portfolio", body:"An oversized, type-led portfolio landing page for a brand identity designer, built to read in one glance."},
-        c6:{sector:"Web Design", title:"EN-Grammary", body:"A restrained, document-style website for an architecture studio, letting section drawings do the talking."},
-        c7:{sector:"Web Design", title:"Travellor", body:"A seasonal, art-directed landing page for a creative studio's work index, shot on location."},
-        c8:{sector:"Web Design", title:"Plinth", body:"An e-commerce site for a boutique wine label, styled like a lifestyle shoot rather than a store."},
-        ghost:{title:"Your business here", body:"Get in touch and let's build the next one."}
+        eyebrow:"Selected work", title:"A few projects we're proud of",
+        sub:"A quick look at some of the sites we've built. Scroll to see more.",
       },
       contact:{
         eyebrow:"Get in touch", title:"Tell us about your business",
         sub:"Fill in the form, or reach out directly. We'll get back to you within one business day with a plan and a price.",
-        emailLabel:"Email", phoneLabel:"Phone", baseLabel:"Based in", baseValue:"London, UK & Chișinău, Moldova — working with clients everywhere",
+        emailLabel:"Email", phoneLabel:"Phone", baseLabel:"Based in", baseValue:"Chișinău, Moldova — working with clients everywhere",
         form:{
           name:"Name", namePh:"Your name",
           company:"Company", companyPh:"Business name",
           email:"Email", emailPh:"you@email.com",
-          budget:"Budget", b1:"Not sure yet", b2:"Under £500", b3:"£500 – £1,500", b4:"£1,500+",
+          budget:"Budget", b1:"Not sure yet", b2:"Under 5,000 lei", b3:"5,000 – 15,000 lei", b4:"15,000+ lei",
           message:"Message", messagePh:"What does your business do, and what do you need?",
           submit:"Send message", note:"We reply within one business day.",
           success:"Thanks — your message is in. We'll reply within one business day."
@@ -741,52 +632,34 @@
       footer:{ rights:"All rights reserved" }
     },
     ro:{
-      nav:{ services:"Servicii", work:"Portofoliu", process:"Proces", contact:"Contact", cta:"Cere o ofertă" },
+      nav:{ services:"Servicii", work:"Portofoliu", contact:"Contact", cta:"Cere o ofertă" },
       hero:{
         eyebrow:"Studio web",
-        title:"Fiecare afacere merită o vitrină pe strada numită internet.",
-        lede:"Construim site-uri rapide și oneste pentru companii care încă nu au unul — restaurante, clinici, ateliere și studiouri gata să fie găsite.",
+        title:"Fiecare afacere merită propriul ei site, adevărat.",
+        lede:"Construim site-uri rapide și oneste pentru companii care încă nu au unul — restaurante, clinici, ateliere și studiouri gata să fie găsite online.",
         cta1:"Cere o ofertă gratuită", cta2:"Vezi portofoliul"
       },
       services:{
-        eyebrow:"Ce construim", title:"Servicii, aranjate ca un meniu",
-        sub:"Alege mărimea potrivită pentru stadiul actual al afacerii tale. Totul este construit ca să crească odată cu tine.",
-        s1:{title:"Site de start", body:"O singură pagină clară, ca să fii găsit: ce faci, programul, locația și un mod de a te contacta."},
-        s2:{title:"Site de afaceri", body:"Un site complet, cu mai multe pagini — servicii, galerie, echipă, blog — construit să reprezinte tot ce oferi."},
-        s3:{title:"Redesign & Salvare", body:"Site-ul tău e vechi, lent sau nu funcționează pe mobil. Îl reconstruim corect, fără să pierzi ce funcționează deja."},
-        s4:{title:"Îngrijire & Actualizări", body:"Găzduire, actualizări de conținut și mici remedieri, ca site-ul să funcționeze bine mult timp după lansare."}
-      },
-      process:{
-        eyebrow:"Cum funcționează", title:"Trei pași de la zero la online",
-        sub:"Fără jargon, fără contracte lungi. Vei ști mereu ce se întâmplă la fiecare pas.",
-        p1:{title:"Discuție", body:"O discuție scurtă despre afacerea ta, clienții tăi și ce trebuie să facă site-ul."},
-        p2:{title:"Construcție", body:"Proiectăm și construim site-ul, împărtășind progresul ca să poți reacționa din timp, nu doar la final."},
-        p3:{title:"Lansare", body:"Conectăm domeniul, punem site-ul live și îți arătăm cum să-l actualizezi singur, dacă vrei."}
+        eyebrow:"Ce construim", title:"Servicii și prețuri",
+        sub:"O listă mică și clară. Alege mărimea potrivită pentru stadiul actual al afacerii tale.",
+        s1:{title:"Site de start", body:"O singură pagină clară, ca să fii găsit: ce faci, programul, locația și un mod de a te contacta.", price:"de la 3.000 lei"},
+        s2:{title:"Site de afaceri", body:"Un site complet, cu mai multe pagini — servicii, galerie, echipă, blog — construit să reprezinte tot ce oferi.", price:"de la 7.000 lei"},
+        s3:{title:"Redesign & Salvare", body:"Site-ul tău e vechi, lent sau nu funcționează pe mobil. Îl reconstruim corect, fără să pierzi ce funcționează deja.", price:"de la 4.000 lei"},
+        s4:{title:"Îngrijire & Actualizări", body:"Găzduire, actualizări de conținut și mici remedieri, ca site-ul să funcționeze bine mult timp după lansare.", price:"de la 500 lei / lună"}
       },
       work:{
-        eyebrow:"Proiecte selectate", title:"Câteva vitrine pe care le-am aprins",
-        sub:"Mai jos sunt studii de caz exemplu — înlocuiește-le cu proiectele tale pe măsură ce preiei clienți.",
-        viewcase:"Vezi proiectul", sample:"Proiect exemplu",
-        filters:{ all:"Toate", brand:"Branding", portfolio:"Portofoliu", web:"Web Design" },
-        c1:{sector:"Portofoliu", title:"Studio Reel", body:"O grilă întunecată, editorială, construită ca fotografia îndrăzneață să spună povestea, proiect cu proiect."},
-        c2:{sector:"Branding", title:"Anna Mihu", body:"Un site de brand cu textură fină, construit în jurul unui singur logo tip serif și al unei filosofii a grijii."},
-        c3:{sector:"Branding", title:"Nova Intelligence", body:"Ghid de brand pentru un studio de cercetare și strategie, construit în jurul unei tipografii crom și a mișcării iridiscente."},
-        c4:{sector:"Portofoliu", title:"Porcfolio", body:"O copertă de portofoliu jucăușă, ilustrată manual pentru un ilustrator 2D, plină de abțibilduri și personalitate."},
-        c5:{sector:"Portofoliu", title:"Firmanda Studio", body:"O pagină de portofoliu cu tipografie supradimensionată pentru un designer de identitate de brand, gândită să fie citită dintr-o privire."},
-        c6:{sector:"Web Design", title:"LCLA Architects", body:"Un site sobru, în stil document, pentru un studio de arhitectură, lăsând desenele de secțiune să vorbească."},
-        c7:{sector:"Web Design", title:"All Work", body:"O pagină sezonieră, regizată vizual, pentru indexul de lucrări al unui studio creativ, fotografiată pe teren."},
-        c8:{sector:"Web Design", title:"Story James", body:"Un magazin online pentru o etichetă de vin boutique, stilizat ca un pictorial lifestyle, nu ca un magazin clasic."},
-        ghost:{title:"Afacerea ta aici", body:"Contactează-ne și hai să construim următorul proiect."}
+        eyebrow:"Proiecte selectate", title:"Câteva proiecte de care suntem mândri",
+        sub:"O privire rapidă asupra câtorva site-uri pe care le-am construit. Derulează pentru mai multe.",
       },
       contact:{
         eyebrow:"Contactează-ne", title:"Spune-ne despre afacerea ta",
         sub:"Completează formularul sau scrie-ne direct. Îți răspundem în cel mult o zi lucrătoare, cu un plan și un preț.",
-        emailLabel:"Email", phoneLabel:"Telefon", baseLabel:"Bazați în", baseValue:"Londra, UK & Chișinău, Moldova — lucrăm cu clienți de oriunde",
+        emailLabel:"Email", phoneLabel:"Telefon", baseLabel:"Bazați în", baseValue:"Chișinău, Moldova — lucrăm cu clienți de oriunde",
         form:{
           name:"Nume", namePh:"Numele tău",
           company:"Companie", companyPh:"Numele afacerii",
           email:"Email", emailPh:"tu@email.com",
-          budget:"Buget", b1:"Nu știu încă", b2:"Sub 500 £", b3:"500 – 1.500 £", b4:"1.500+ £",
+          budget:"Buget", b1:"Nu știu încă", b2:"Sub 5.000 lei", b3:"5.000 – 15.000 lei", b4:"15.000+ lei",
           message:"Mesaj", messagePh:"Cu ce se ocupă afacerea ta și de ce ai nevoie?",
           submit:"Trimite mesajul", note:"Răspundem în cel mult o zi lucrătoare.",
           success:"Mulțumim — mesajul a fost trimis. Îți răspundem în cel mult o zi lucrătoare."
@@ -795,52 +668,34 @@
       footer:{ rights:"Toate drepturile rezervate" }
     },
     ru:{
-      nav:{ services:"Услуги", work:"Работы", process:"Процесс", contact:"Контакты", cta:"Запросить смету" },
+      nav:{ services:"Услуги", work:"Работы", contact:"Контакты", cta:"Запросить смету" },
       hero:{
         eyebrow:"Веб-студия",
-        title:"У каждого бизнеса должна быть витрина на улице под названием интернет.",
-        lede:"Мы создаём быстрые и честные сайты для компаний, у которых его ещё нет — рестораны, клиники, мастерские и студии, готовые стать заметными.",
+        title:"Каждый бизнес заслуживает собственный настоящий сайт.",
+        lede:"Мы создаём быстрые и честные сайты для компаний, у которых его ещё нет — рестораны, клиники, мастерские и студии, готовые быть найденными онлайн.",
         cta1:"Получить бесплатную смету", cta2:"Смотреть работы"
       },
       services:{
-        eyebrow:"Что мы делаем", title:"Услуги — как меню на витрине",
-        sub:"Выберите вариант, который подходит вашему бизнесу сейчас. Всё построено так, чтобы расти вместе с вами.",
-        s1:{title:"Стартовый сайт", body:"Одна чёткая страница, чтобы вас нашли: чем вы занимаетесь, часы работы, адрес и способ связи."},
-        s2:{title:"Бизнес-сайт", body:"Полноценный сайт с несколькими страницами — услуги, галерея, команда, блог — представляющий всё, что вы предлагаете."},
-        s3:{title:"Редизайн и спасение", body:"Ваш сайт устарел, медленный или не работает на телефоне. Мы пересоберём его правильно, не теряя то, что уже работает."},
-        s4:{title:"Поддержка и обновления", body:"Хостинг, обновление контента и мелкие правки, чтобы сайт исправно работал ещё долго после запуска."}
-      },
-      process:{
-        eyebrow:"Как это работает", title:"Три шага от нуля до онлайна",
-        sub:"Без жаргона и долгих договоров. Вы будете знать, что происходит на каждом шаге.",
-        p1:{title:"Бриф", body:"Короткий звонок или переписка о вашем бизнесе, клиентах и задачах будущего сайта."},
-        p2:{title:"Разработка", body:"Мы проектируем и собираем сайт, показывая прогресс, чтобы вы могли вносить правки заранее, а не только в конце."},
-        p3:{title:"Запуск", body:"Подключаем домен, публикуем сайт и показываем, как обновлять его самостоятельно, если захотите."}
+        eyebrow:"Что мы делаем", title:"Услуги и цены",
+        sub:"Небольшой, понятный список. Выберите вариант, который подходит вашему бизнесу сейчас.",
+        s1:{title:"Стартовый сайт", body:"Одна чёткая страница, чтобы вас нашли: чем вы занимаетесь, часы работы, адрес и способ связи.", price:"от 3 000 лей"},
+        s2:{title:"Бизнес-сайт", body:"Полноценный сайт с несколькими страницами — услуги, галерея, команда, блог — представляющий всё, что вы предлагаете.", price:"от 7 000 лей"},
+        s3:{title:"Редизайн и спасение", body:"Ваш сайт устарел, медленный или не работает на телефоне. Мы пересоберём его правильно, не теряя то, что уже работает.", price:"от 4 000 лей"},
+        s4:{title:"Поддержка и обновления", body:"Хостинг, обновление контента и мелкие правки, чтобы сайт исправно работал ещё долго после запуска.", price:"от 500 лей / месяц"}
       },
       work:{
-        eyebrow:"Избранные работы", title:"Несколько витрин, которые мы зажгли",
-        sub:"Ниже — примеры кейсов. Замените их своими проектами по мере появления клиентов.",
-        viewcase:"Смотреть кейс", sample:"Пример проекта",
-        filters:{ all:"Все", brand:"Брендинг", portfolio:"Портфолио", web:"Веб-дизайн" },
-        c1:{sector:"Портфолио", title:"Studio Reel", body:"Тёмная, редакторская сетка, где смелая фотография рассказывает историю проект за проектом."},
-        c2:{sector:"Брендинг", title:"Anna Mihu", body:"Сайт бренда с мягкой текстурой, построенный вокруг одного шрифтового знака и философии заботы."},
-        c3:{sector:"Брендинг", title:"Nova Intelligence", body:"Брендбук для исследовательской и стратегической студии, построенный на хромированном шрифте и переливающемся движении."},
-        c4:{sector:"Портфолио", title:"Porcfolio", body:"Игривая, нарисованная от руки обложка портфолио для 2D-иллюстратора, полная стикеров и характера."},
-        c5:{sector:"Портфолио", title:"Firmanda Studio", body:"Портфолио с крупной типографикой для дизайнера айдентики, созданное для восприятия с одного взгляда."},
-        c6:{sector:"Веб-дизайн", title:"LCLA Architects", body:"Сдержанный, похожий на документ сайт для архитектурной студии, где говорят чертежи разрезов."},
-        c7:{sector:"Веб-дизайн", title:"All Work", body:"Сезонная, художественно срежиссированная страница индекса работ креативной студии, снятая на натуре."},
-        c8:{sector:"Веб-дизайн", title:"Story James", body:"Интернет-магазин для бутикового винного бренда, оформленный как lifestyle-съёмка, а не как витрина магазина."},
-        ghost:{title:"Ваш бизнес здесь", body:"Свяжитесь с нами — построим следующий проект вместе."}
+        eyebrow:"Избранные работы", title:"Несколько проектов, которыми мы гордимся",
+        sub:"Небольшой обзор нескольких сайтов, которые мы создали. Прокрутите, чтобы увидеть больше.",
       },
       contact:{
         eyebrow:"Связаться с нами", title:"Расскажите о своём бизнесе",
         sub:"Заполните форму или напишите напрямую. Ответим в течение одного рабочего дня с планом и стоимостью.",
-        emailLabel:"Email", phoneLabel:"Телефон", baseLabel:"Находимся в", baseValue:"Лондон, Великобритания и Кишинёв, Молдова — работаем с клиентами из любой точки",
+        emailLabel:"Email", phoneLabel:"Телефон", baseLabel:"Находимся в", baseValue:"Кишинёв, Молдова — работаем с клиентами из любой точки",
         form:{
           name:"Имя", namePh:"Ваше имя",
           company:"Компания", companyPh:"Название бизнеса",
           email:"Email", emailPh:"you@email.com",
-          budget:"Бюджет", b1:"Пока не знаю", b2:"До £500", b3:"£500 – £1500", b4:"£1500+",
+          budget:"Бюджет", b1:"Пока не знаю", b2:"До 5 000 лей", b3:"5 000 – 15 000 лей", b4:"15 000+ лей",
           message:"Сообщение", messagePh:"Чем занимается ваш бизнес и что вам нужно?",
           submit:"Отправить сообщение", note:"Отвечаем в течение одного рабочего дня.",
           success:"Спасибо — сообщение отправлено. Ответим в течение одного рабочего дня."
@@ -908,28 +763,49 @@
     });
   });
 
-  // portfolio filter
-  const filterBar = document.getElementById('filterBar');
-  const cases = document.querySelectorAll('#portfolioGrid .case');
-  filterBar.addEventListener('click', function(e){
-    const btn = e.target.closest('.filter-pill');
-    if(!btn) return;
-    filterBar.querySelectorAll('.filter-pill').forEach(function(b){ b.classList.remove('active'); });
-    btn.classList.add('active');
-    const filter = btn.dataset.filter;
-    cases.forEach(function(c){
-      const show = filter === 'all' || c.dataset.category === filter;
-      c.style.display = show ? '' : 'none';
+  // contact form — submits to FormSubmit, which forwards to cswebd.info@gmail.com
+  const form = document.getElementById('contactForm');
+  const success = document.getElementById('formSuccess');
+  const errorBox = document.getElementById('formError');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    success.classList.remove('show');
+    errorBox.classList.remove('show');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+
+    fetch('https://formsubmit.co/ajax/cswebd.info@gmail.com', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(form)
+    })
+    .then(function(res){ if(!res.ok) throw new Error('Request failed'); return res.json(); })
+    .then(function(){
+      success.classList.add('show');
+      form.reset();
+    })
+    .catch(function(){
+      errorBox.classList.add('show');
+    })
+    .finally(function(){
+      submitBtn.disabled = false;
     });
   });
 
-  // contact form (front-end only — wire up a real endpoint, see note in chat)
-  const form = document.getElementById('contactForm');
-  const success = document.getElementById('formSuccess');
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    success.classList.add('show');
-    form.reset();
+  // gallery arrows
+  const galleryTrack = document.getElementById('gallery');
+  const galleryPrev = document.getElementById('galleryPrev');
+  const galleryNext = document.getElementById('galleryNext');
+  function galleryStep(){
+    const item = galleryTrack.querySelector('.gallery-item');
+    const gap = 20;
+    return item ? item.getBoundingClientRect().width + gap : 300;
+  }
+  galleryPrev.addEventListener('click', function(){
+    galleryTrack.scrollBy({ left: -galleryStep(), behavior: 'smooth' });
+  });
+  galleryNext.addEventListener('click', function(){
+    galleryTrack.scrollBy({ left: galleryStep(), behavior: 'smooth' });
   });
 
   document.getElementById('year').textContent = new Date().getFullYear();
