@@ -12,12 +12,20 @@
 <style>
   :root{
     --paper:#F6F3EC;
+    --paper-rgb:246,243,236;
     --paper-card:#EFEADD;
     --ink:#1B1A17;
     --muted:#82796C;
     --line:#DFD8C8;
     --accent:#B4472E;
+    --accent-hover:#963A25;
     --accent-soft:#EFDCD3;
+    --input-bg:#FFFFFF;
+    --placeholder:#A9ACB4;
+    --success-ink:#9A2E17;
+    --error-bg:#F6E3E0;
+    --error-border:#B4472E;
+    --error-text:#8A2A16;
     --t1a:#FFB4A2; --t1b:#FF5A36;
     --t2a:#BFE3D0; --t2b:#5FA97F;
     --t3a:#FFE08A; --t3b:#F2AE2E;
@@ -26,6 +34,26 @@
     --radius:6px;
     --maxw:1220px;
     font-synthesis:none;
+    color-scheme:light;
+  }
+
+  :root[data-theme="dark"]{
+    --paper:#1D1B17;
+    --paper-rgb:29,27,23;
+    --paper-card:#26221D;
+    --ink:#F3EEE3;
+    --muted:#A79E8E;
+    --line:#3A352C;
+    --accent:#E2794F;
+    --accent-hover:#F0925F;
+    --accent-soft:#3D2A22;
+    --input-bg:#211E19;
+    --placeholder:#6E6656;
+    --success-ink:#F0B79C;
+    --error-bg:#3D2119;
+    --error-border:#E2794F;
+    --error-text:#FFD9C8;
+    color-scheme:dark;
   }
 
   *{ box-sizing:border-box; }
@@ -43,6 +71,7 @@
     font-size:16px;
     line-height:1.55;
     -webkit-font-smoothing:antialiased;
+    transition:background .25s ease, color .25s ease;
   }
 
   h1,h2,h3,.display{
@@ -77,12 +106,12 @@
   /* ---------- NAV ---------- */
   header{
     position:fixed; top:0; left:0; right:0; z-index:100;
-    background:rgba(250,250,248,0.85);
+    background:rgba(var(--paper-rgb),0.85);
     backdrop-filter: blur(10px);
     border-bottom:1px solid transparent;
     transition:border-color .3s ease, background .3s ease;
   }
-  header.scrolled{ border-bottom:1px solid var(--line); background:rgba(250,250,248,0.96); }
+  header.scrolled{ border-bottom:1px solid var(--line); background:rgba(var(--paper-rgb),0.96); }
   nav.wrap{ display:flex; align-items:center; justify-content:space-between; height:74px; gap:20px; }
 
   .logo{ display:flex; align-items:center; gap:11px; text-decoration:none; }
@@ -109,8 +138,21 @@
     font-family:'JetBrains Mono', monospace; font-size:0.7rem; letter-spacing:0.06em;
     padding:6px 11px; border-radius:999px; cursor:pointer; transition:all .2s ease;
   }
-  .lang-btn.active{ background:var(--ink); color:#fff; font-weight:600; }
+  .lang-btn.active{ background:var(--ink); color:var(--paper); font-weight:600; }
   .lang-btn:not(.active):hover{ color:var(--ink); }
+
+  .theme-toggle{
+    display:flex; align-items:center; justify-content:center;
+    width:36px; height:36px; border-radius:50%;
+    border:1px solid var(--line); background:var(--paper-card);
+    color:var(--ink); cursor:pointer; flex-shrink:0;
+    transition:border-color .2s ease, background .2s ease;
+  }
+  .theme-toggle:hover{ border-color:var(--ink); }
+  .theme-toggle svg{ width:17px; height:17px; }
+  .theme-toggle .icon-moon{ display:none; }
+  :root[data-theme="dark"] .theme-toggle .icon-sun{ display:none; }
+  :root[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
 
   .btn{
     display:inline-flex; align-items:center; gap:8px;
@@ -133,7 +175,7 @@
   .burger.open span:nth-child(2){ opacity:0; }
   .burger.open span:nth-child(3){ transform:translateY(-11px) rotate(-45deg); }
 
-  .mobile-panel{ display:none; flex-direction:column; gap:4px; padding:14px 28px 22px; border-top:1px solid var(--line); background:rgba(250,250,248,0.98); }
+  .mobile-panel{ display:none; flex-direction:column; gap:4px; padding:14px 28px 22px; border-top:1px solid var(--line); background:rgba(var(--paper-rgb),0.98); }
   .mobile-panel.open{ display:flex; }
   .mobile-panel a{ text-decoration:none; color:var(--ink); padding:12px 0; border-bottom:1px solid var(--line); font-size:0.98rem; }
 
@@ -264,13 +306,13 @@
   }
   .gallery-arrow.prev{
     left:0; justify-content:flex-start; padding-left:18px;
-    background:linear-gradient(to right, rgba(246,243,236,0.75) 0%, rgba(246,243,236,0.4) 55%, rgba(246,243,236,0) 100%);
+    background:linear-gradient(to right, rgba(var(--paper-rgb),0.75) 0%, rgba(var(--paper-rgb),0.4) 55%, rgba(var(--paper-rgb),0) 100%);
     -webkit-mask-image:linear-gradient(to right, #000 0%, #000 60%, transparent 100%);
     mask-image:linear-gradient(to right, #000 0%, #000 60%, transparent 100%);
   }
   .gallery-arrow.next{
     right:0; justify-content:flex-end; padding-right:18px;
-    background:linear-gradient(to left, rgba(246,243,236,0.75) 0%, rgba(246,243,236,0.4) 55%, rgba(246,243,236,0) 100%);
+    background:linear-gradient(to left, rgba(var(--paper-rgb),0.75) 0%, rgba(var(--paper-rgb),0.4) 55%, rgba(var(--paper-rgb),0) 100%);
     -webkit-mask-image:linear-gradient(to left, #000 0%, #000 60%, transparent 100%);
     mask-image:linear-gradient(to left, #000 0%, #000 60%, transparent 100%);
   }
@@ -301,15 +343,17 @@
   form .full{ grid-column:1/-1; }
   label{ display:block; font-size:0.72rem; color:var(--muted); margin-bottom:8px; }
   input, textarea, select{
-    width:100%; background:#fff; border:1px solid var(--line); border-radius:8px;
+    width:100%; background:var(--input-bg); border:1px solid var(--line); border-radius:8px;
     padding:12px 14px; color:var(--ink); font-family:'Inter', sans-serif; font-size:0.94rem;
   }
-  input::placeholder, textarea::placeholder{ color:#A9ACB4; }
+  input::placeholder, textarea::placeholder{ color:var(--placeholder); }
   textarea{ resize:vertical; min-height:104px; }
   select{ appearance:none; cursor:pointer; }
   form .submit-row{ display:flex; align-items:center; gap:16px; margin-top:4px; flex-wrap:wrap; }
   .form-note{ font-size:0.8rem; color:var(--muted); }
-  .form-success{ display:none; background:var(--accent-soft); border:1px solid var(--accent); color:#9A2E17; padding:14px 16px; border-radius:8px; font-size:0.88rem; }
+  .form-success{ display:none; background:var(--accent-soft); border:1px solid var(--accent); color:var(--success-ink); padding:14px 16px; border-radius:8px; font-size:0.88rem; }
+  .form-error{ display:none; background:var(--error-bg); border:1px solid var(--error-border); color:var(--error-text); padding:14px 16px; border-radius:8px; font-size:0.88rem; }
+  .form-error.show{ display:block; }
   .form-success.show{ display:block; }
 
   /* ---------- FOOTER ---------- */
@@ -368,6 +412,10 @@
         <button class="lang-btn" data-lang="ru">RU</button>
         <button class="lang-btn" data-lang="en">EN</button>
       </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
       <a href="#contact" class="btn btn-primary nav-cta" data-i18n="nav.cta">Get a quote</a>
       <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
@@ -525,13 +573,17 @@
           <label for="name" data-i18n="contact.form.name">Name</label>
           <input type="text" id="name" name="name" required data-i18n-placeholder="contact.form.namePh" placeholder="Your name">
         </div>
-        <div>
+        <div class="full">
           <label for="company" data-i18n="contact.form.company">Company</label>
           <input type="text" id="company" name="company" data-i18n-placeholder="contact.form.companyPh" placeholder="Business name">
         </div>
         <div>
           <label for="email" data-i18n="contact.form.email">Email</label>
           <input type="email" id="email" name="email" required data-i18n-placeholder="contact.form.emailPh" placeholder="you@email.com">
+        </div>
+        <div>
+          <label for="phone" data-i18n="contact.form.phone">Phone</label>
+          <input type="tel" id="phone" name="phone" data-i18n-placeholder="contact.form.phonePh" placeholder="+373 00 000 000">
         </div>
         <div class="full">
           <label for="budget" data-i18n="contact.form.budget">Budget</label>
@@ -551,7 +603,7 @@
           <span class="form-note" data-i18n="contact.form.note">We reply within one business day.</span>
         </div>
         <div class="full form-success" id="formSuccess" data-i18n="contact.form.success">Thanks — your message is in. We'll reply within one business day.</div>
-        <div class="full form-success" id="formError" style="background:#F6E3E0; border-color:#B4472E; color:#8A2A16;">Something went wrong sending your message — please email us directly at cswebd.info@gmail.com.</div>
+        <div class="full form-error" id="formError">Something went wrong sending your message — please email us directly at cswebd.info@gmail.com.</div>
       </form>
     </div>
   </section>
@@ -623,6 +675,7 @@
           name:"Name", namePh:"Your name",
           company:"Company", companyPh:"Business name",
           email:"Email", emailPh:"you@email.com",
+          phone:"Phone", phonePh:"+373 00 000 000",
           budget:"Budget", b1:"Not sure yet", b2:"Under 5,000 lei", b3:"5,000 – 15,000 lei", b4:"15,000+ lei",
           message:"Message", messagePh:"What does your business do, and what do you need?",
           submit:"Send message", note:"We reply within one business day.",
@@ -659,6 +712,7 @@
           name:"Nume", namePh:"Numele tău",
           company:"Companie", companyPh:"Numele afacerii",
           email:"Email", emailPh:"tu@email.com",
+          phone:"Telefon", phonePh:"+373 00 000 000",
           budget:"Buget", b1:"Nu știu încă", b2:"Sub 5.000 lei", b3:"5.000 – 15.000 lei", b4:"15.000+ lei",
           message:"Mesaj", messagePh:"Cu ce se ocupă afacerea ta și de ce ai nevoie?",
           submit:"Trimite mesajul", note:"Răspundem în cel mult o zi lucrătoare.",
@@ -695,6 +749,7 @@
           name:"Имя", namePh:"Ваше имя",
           company:"Компания", companyPh:"Название бизнеса",
           email:"Email", emailPh:"you@email.com",
+          phone:"Телефон", phonePh:"+373 00 000 000",
           budget:"Бюджет", b1:"Пока не знаю", b2:"До 5 000 лей", b3:"5 000 – 15 000 лей", b4:"15 000+ лей",
           message:"Сообщение", messagePh:"Чем занимается ваш бизнес и что вам нужно?",
           submit:"Отправить сообщение", note:"Отвечаем в течение одного рабочего дня.",
@@ -742,6 +797,25 @@
     }
   }catch(e){}
   setLanguage(initial);
+
+  // theme (light/dark)
+  const themeToggle = document.getElementById('themeToggle');
+  function applyTheme(theme){
+    document.documentElement.setAttribute('data-theme', theme);
+  }
+  let initialTheme = 'light';
+  try{
+    const savedTheme = localStorage.getItem('cswebd-theme');
+    if(savedTheme){ initialTheme = savedTheme; }
+    else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){ initialTheme = 'dark'; }
+  }catch(e){}
+  applyTheme(initialTheme);
+  themeToggle.addEventListener('click', function(){
+    const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    try{ localStorage.setItem('cswebd-theme', next); }catch(e){}
+  });
 
   // header scroll state
   const header = document.getElementById('site-header');
